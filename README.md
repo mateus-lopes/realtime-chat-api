@@ -1,76 +1,51 @@
 # Realtime Chat API
 
-Uma API de chat em tempo real construída com Node.js, Express, TypeScript e Socket.io.
+A real-time chat API built with Node.js, Express, TypeScript, and Socket.io.
 
-## 🚀 Funcionalidades
+### 🚀 Features
 
-- ✅ API REST com Express
-- ✅ TypeScript para tipagem estática
-- ✅ Configuração ES Modules
-- ✅ Middleware CORS configurado
-- ✅ Estrutura de rotas de autenticação
-- 🔄 Socket.io para comunicação em tempo real (em desenvolvimento)
-- 🔄 MongoDB para persistência de dados (em desenvolvimento)
-- 🔄 JWT para autenticação (em desenvolvimento)
+- ✅ REST API with Express
+- ✅ TypeScript for static typing
+- ✅ ES Modules configuration
+- ✅ CORS middleware configured
+- ✅ Authentication route structure
+- 🔄 Socket.io for real-time communication (in development)
+- 🔄 MongoDB for data persistence (in development)
+- 🔄 JWT for authentication (in development)
+- 🔧 Tecnologias Utilizadas: **Node.js**, **Express**, **TypeScript**, **Socket.io**, **MongoDB**, **Mongoose**, **JWT**, **bcryptjs**, **CORS**, **dotenv**
 
-## 🔧 Instalação
+### 🔧 Installation
 
-1. Clone o repositório:
 ```bash
 git clone <url-do-repositorio>
 cd realtime-chat-api
 ```
 
-2. Instale as dependências:
 ```bash
 npm install
 ```
 
-3. Configure as variáveis de ambiente:
 ```bash
 cp .env.example .env
 ```
 
-Edite o arquivo `.env` com suas configurações:
 ```env
+// add your configurations
 MONGODB_URI=mongodb://localhost:27017/realtime-chat
 PORT=5001
 JWT_SECRET=your-super-secret-jwt-key-here
 NODE_ENV=development
 ```
 
-## 🚀 Como executar
+### 🚀 How to Run
 
-### Desenvolvimento
+#### dev
 ```bash
-# Compilar e executar com nodemon
 npm run dev
-
-# Ou compilar em modo watch (em um terminal)
-npm run dev:watch
-
-# E executar o servidor (em outro terminal)
-npm start
 ```
 
-### Produção
+#### prod
 ```bash
-# Compilar o projeto
 npm run build
-
-# Executar o servidor
 npm start
 ```
-
-## 🔧 Tecnologias Utilizadas
-
-- **Node.js** - Runtime JavaScript
-- **Express** - Framework web
-- **TypeScript** - Superset do JavaScript com tipagem
-- **Socket.io** - Comunicação em tempo real
-- **MongoDB** - Banco de dados NoSQL
-- **Mongoose** - ODM para MongoDB
-- **JWT** - Autenticação baseada em tokens
-- **bcryptjs** - Hash de senhas
-- **CORS** - Cross-Origin Resource Sharing
-- **dotenv** - Gerenciamento de variáveis de ambiente
