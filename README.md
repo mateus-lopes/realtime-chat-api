@@ -17,7 +17,7 @@ A real-time chat API built with Node.js, Express, TypeScript, and Socket.io.
 ### 🔧 Installation
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/mateus-lopes/realtime-chat-api/
 cd realtime-chat-api
 ```
 
