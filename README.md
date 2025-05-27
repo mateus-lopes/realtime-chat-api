@@ -13,12 +13,6 @@ Uma API de chat em tempo real construída com Node.js, Express, TypeScript e Soc
 - 🔄 MongoDB para persistência de dados (em desenvolvimento)
 - 🔄 JWT para autenticação (em desenvolvimento)
 
-## 📋 Pré-requisitos
-
-- Node.js (versão 18 ou superior)
-- npm ou yarn
-- MongoDB (local ou remoto)
-
 ## 🔧 Instalação
 
 1. Clone o repositório:
@@ -80,15 +74,3 @@ npm start
 - **bcryptjs** - Hash de senhas
 - **CORS** - Cross-Origin Resource Sharing
 - **dotenv** - Gerenciamento de variáveis de ambiente
-
-## 🤝 Contribuindo
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença ISC. Veja o arquivo `LICENSE` para mais detalhes.
