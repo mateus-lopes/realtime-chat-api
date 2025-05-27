@@ -1,22 +1,28 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { generateToken } from "../lib/utils";
-import { User } from "../models/user.model";
+import { generateToken } from "../lib/utils.js";
+import { User } from "../models/user.model.js";
+import { IUser } from "../types/user.types.js";
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
   const { email, fullName, password } = req.body;
 
   try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      res.status(409).json({ message: "Email already registered." });
+    if (!email || !fullName || !password) {
+      res.status(400).json({ message: "All fields are required." });
       return;
     }
     if (password.length < 6) {
       res
         .status(400)
         .json({ message: "Password must be at least 6 characters long." });
+      return;
+    }
+
+    const existingUser = await User.findOne({ email }).lean<IUser>();
+    if (existingUser) {
+      res.status(409).json({ message: "Email already registered." });
       return;
     }
 
@@ -32,9 +38,14 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     if (newUser) {
       generateToken(newUser._id.toString(), res);
       await newUser.save();
-      res.status(201).json({ message: "Usuário criado com sucesso." });
+      res.status(201).json({
+        _id: newUser._id,
+        email: newUser.email,
+        fullName: newUser.fullName,
+        profilePicture: newUser.profilePicture,
+      });
     } else {
-      res.status(500).json({ message: "Erro interno." });
+      res.status(400).json({ message: "Invalid user data." });
     }
   } catch (error) {
     const errorMessage =
@@ -53,8 +64,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
       res.status(401).json({ message: "Credenciais inválidas." });
       return;
     }
@@ -65,7 +76,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ token });
+    res.status(200).json({
+      _id: user._id,
+      email: user.email,
+      fullName: user.fullName,
+      profilePicture: user.profilePicture,
+    });
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Erro interno.";
@@ -74,6 +90,41 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const logout = async (_req: Request, res: Response): Promise<void> => {
-  // logout é feito no front-end
-  res.status(200).json({ message: "Logout realizado com sucesso." });
+  try {
+    res.cookie("jwt", "", { maxAge: 0 });
+    res.status(200).json({ message: "Logout realizado com sucesso." });
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Erro interno.";
+    res.status(500).json({ message: errorMessage });
+  }
+};
+
+export const update = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.body;
+    const { email, fullName, profilePicture } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { email, fullName, profilePicture },
+      { new: true }
+    );
+
+    if (!user) {
+      res.status(404).json({ message: "Usuário não encontrado." });
+      return;
+    }
+
+    res.status(200).json({
+      _id: user._id,
+      email: user.email,
+      fullName: user.fullName,
+      profilePicture: user.profilePicture,
+    });
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Erro interno.";
+    res.status(500).json({ message: errorMessage });
+  }
 };
