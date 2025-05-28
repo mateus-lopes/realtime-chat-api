@@ -154,7 +154,7 @@ export const updateProfile = async (
   }
 };
 
-export const checkAuth = async (req: any, res: Response): Promise<void> => {
+export const checkAuth = async (req: Request, res: Response): Promise<void> => {
   try {
     res.status(200).json(req.user);
   } catch (error) {

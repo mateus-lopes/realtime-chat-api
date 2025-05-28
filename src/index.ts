@@ -4,6 +4,7 @@ import cors from "cors";
 
 import { connectDB } from "./lib/db.js";
 import { router as authRoutes } from "./routes/auth.route.js";
+import { router as messageRoutes } from "./routes/message.route.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/message", messageRoutes);
 
 app.get("/", (_req, res) => {
   res.json({ message: "Realtime Chat API is running!" });
