@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { generateToken } from "../lib/utils.js";
 import { User } from "../models/user.model.js";
 import { IUser } from "../types/user.types.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
   const { email, fullName, password } = req.body;
@@ -70,17 +71,14 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const token = jwt.sign(
-      { userId: user._id, email: user.email },
-      process.env.JWT_SECRET!,
-      { expiresIn: "1h" }
-    );
-
     res.status(200).json({
-      _id: user._id,
-      email: user.email,
-      fullName: user.fullName,
-      profilePicture: user.profilePicture,
+      token: generateToken(user._id.toString(), res),
+      user: {
+        _id: user._id,
+        email: user.email,
+        fullName: user.fullName,
+        profilePicture: user.profilePicture,
+      },
     });
   } catch (error) {
     const errorMessage =
@@ -122,6 +120,43 @@ export const update = async (req: Request, res: Response): Promise<void> => {
       fullName: user.fullName,
       profilePicture: user.profilePicture,
     });
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Erro interno.";
+    res.status(500).json({ message: errorMessage });
+  }
+};
+
+export const updateProfile = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { profilePicture, userId } = req.body;
+
+    if (!profilePicture || !userId) {
+      res.status(400).json({ message: "Dados inválidos." });
+      return;
+    }
+
+    const uploadResponse = await cloudinary.uploader.upload(profilePicture);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { profilePicture: uploadResponse.secure_url },
+      { new: true }
+    );
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Erro interno.";
+    res.status(500).json({ message: errorMessage });
+  }
+};
+
+export const checkAuth = async (req: any, res: Response): Promise<void> => {
+  try {
+    res.status(200).json(req.user);
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Erro interno.";
