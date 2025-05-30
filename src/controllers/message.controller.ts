@@ -64,7 +64,7 @@ export const sendMessage = async (
     const newMessage = new Message({
       senderId: myId,
       receiverId: userToChatId,
-      text,
+      content: text,
       image: imageUrl,
     });
 
