@@ -152,7 +152,8 @@ const options = {
           properties: {
             profilePicture: {
               type: "string",
-              description: "Base64 encoded image",
+              description:
+                "Base64 encoded image (max 8MB, max 1000x1000px). Supported formats: JPEG, PNG, GIF, WebP. Server accepts up to 10MB payload.",
               example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ...",
             },
             userId: {
@@ -184,6 +185,36 @@ const options = {
               type: "string",
               description: "Error message",
               example: "An error occurred",
+            },
+            code: {
+              type: "string",
+              description: "Error code for programmatic handling",
+              example: "TOKEN_EXPIRED",
+            },
+          },
+        },
+        RateLimitResponse: {
+          type: "object",
+          properties: {
+            message: {
+              type: "string",
+              description: "Rate limit error message",
+              example: "Too many requests, please try again later.",
+            },
+            retryAfter: {
+              type: "number",
+              description: "Seconds until rate limit resets",
+              example: 900,
+            },
+            limit: {
+              type: "number",
+              description: "Maximum requests allowed",
+              example: 100,
+            },
+            remaining: {
+              type: "number",
+              description: "Remaining requests in current window",
+              example: 0,
             },
           },
         },

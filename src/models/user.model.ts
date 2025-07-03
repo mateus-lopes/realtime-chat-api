@@ -1,4 +1,3 @@
-// models/user.model.ts
 import mongoose, { Document, Model } from "mongoose";
 import { IUser } from "../types/user.types.js";
 
@@ -10,6 +9,9 @@ const userSchema = new mongoose.Schema<UserDocument>(
     fullName: { type: String, required: true },
     password: { type: String, required: true, minlength: 6 },
     profilePicture: { type: String, default: "" },
+    about: { type: String, default: "" },
+    online: { type: Boolean, default: false },
+    lastSeen: { type: Date },
   },
   { timestamps: true }
 );

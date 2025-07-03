@@ -5,6 +5,10 @@ import {
   sendMessage,
 } from "../controllers/message.controller.js";
 import { protectGuard } from "../middleware/auth.middleware.js";
+import {
+  messageRateLimiter,
+  generalRateLimiter,
+} from "../middleware/rateLimiter.middleware.js";
 
 const router: Router = express.Router();
 
@@ -38,7 +42,7 @@ const router: Router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.get("/users", protectGuard, getUsersForSidebar);
+router.get("/users", generalRateLimiter, protectGuard, getUsersForSidebar);
 
 /**
  * @swagger
@@ -71,6 +75,19 @@ router.get("/users", protectGuard, getUsersForSidebar);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
+ *       429:
+ *         description: Too many requests
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Too many requests, please try again later."
+ *                 retryAfter:
+ *                   type: number
+ *                   example: 900
  *       500:
  *         description: Internal server error
  *         content:
@@ -78,7 +95,7 @@ router.get("/users", protectGuard, getUsersForSidebar);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.get("/:id", protectGuard, getMessages);
+router.get("/:id", generalRateLimiter, protectGuard, getMessages);
 
 /**
  * @swagger
@@ -122,6 +139,6 @@ router.get("/:id", protectGuard, getMessages);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.post("/send/:id", protectGuard, sendMessage);
+router.post("/send/:id", messageRateLimiter, protectGuard, sendMessage);
 
 export { router };

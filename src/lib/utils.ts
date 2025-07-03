@@ -1,18 +1,24 @@
 import jwt from "jsonwebtoken";
-
 import { Response } from "express";
 
-export const generateToken = (userId: string, res: Response): string => {
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET!, {
+export const generateTokens = (
+  userId: string,
+  res: Response
+): { accessToken: string; refreshToken: string } => {
+  const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET!, {
     expiresIn: "7d",
   });
 
-  res.cookie("jwt", token, {
-    maxAge: 7 * 24 * 60 * 60 * 1000, // MS
-    httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-    sameSite: "strict", // Helps prevent CSRF attacks
+  res.cookie("jwt", accessToken, {
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    httpOnly: true,
+    sameSite: "strict",
     secure: process.env.NODE_ENV !== "development",
   });
 
-  return token;
+  return { accessToken, refreshToken: accessToken };
+};
+
+export const revokeRefreshToken = (userId: string): void => {
+  // No longer needed with simplified token system
 };

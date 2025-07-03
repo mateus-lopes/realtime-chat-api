@@ -3,7 +3,7 @@ import {
   signup,
   login,
   logout,
-  updateProfile,
+  update,
   checkAuth,
 } from "../controllers/auth.controller.js";
 import { protectGuard } from "../middleware/auth.middleware.js";
@@ -113,7 +113,7 @@ router.get("/logout", logout);
 /**
  * @swagger
  * /api/auth/update:
- *   put:
+ *   patch:
  *     summary: Update user profile
  *     tags: [Authentication]
  *     security:
@@ -150,7 +150,7 @@ router.get("/logout", logout);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.put("/update", protectGuard, updateProfile);
+router.patch("/update", protectGuard, update);
 
 /**
  * @swagger
