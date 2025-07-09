@@ -93,22 +93,3 @@ export const authRateLimiter = createRateLimiter({
   message: "Too many authentication attempts, please try again in 15 minutes.",
   skipSuccessfulRequests: true,
 });
-
-export const generalRateLimiter = createRateLimiter({
-  windowMs: 15 * 60 * 1000,
-  maxRequests: 100,
-  message: "Too many requests, please try again later.",
-});
-
-export const messageRateLimiter = createRateLimiter({
-  windowMs: 1 * 60 * 1000,
-  maxRequests: 30,
-  message: "Too many messages, please slow down.",
-});
-
-export const strictRateLimiter = createRateLimiter({
-  windowMs: 60 * 60 * 1000,
-  maxRequests: 30,
-  message: "Too many attempts, please try again in 1 hour.",
-  skipSuccessfulRequests: true,
-});

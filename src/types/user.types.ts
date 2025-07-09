@@ -4,9 +4,8 @@ export interface IUser {
   fullName: string;
   password: string;
   profilePicture?: string;
-  online?: boolean;
   about?: string;
-  lastSeen?: Date;
+  online?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }

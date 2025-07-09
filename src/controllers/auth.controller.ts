@@ -4,11 +4,7 @@ import { generateTokens } from "../lib/utils.js";
 import { User } from "../models/user.model.js";
 import { IUser } from "../types/user.types.js";
 import cloudinary from "../lib/cloudinary.js";
-import {
-  ERROR_MESSAGES,
-  SUCCESS_MESSAGES,
-  HTTP_STATUS,
-} from "../lib/constants.js";
+import { ERROR_MESSAGES, HTTP_STATUS } from "../lib/constants.js";
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
   const { email, fullName, password } = req.body;
@@ -56,7 +52,9 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     });
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : "Internal server error.";
+      error instanceof Error
+        ? error.message
+        : ERROR_MESSAGES.INTERNAL_SERVER_ERROR;
     res.status(500).json({ message: errorMessage });
   }
 };
@@ -67,13 +65,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      res.status(401).json({ message: "Invalid credentials." });
+      res.status(401).json({ message: ERROR_MESSAGES.INVALID_CREDENTIALS });
       return;
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      res.status(401).json({ message: "Invalid credentials." });
+      res.status(401).json({ message: ERROR_MESSAGES.INVALID_CREDENTIALS });
       return;
     }
 
@@ -94,7 +92,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     });
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : "Internal server error.";
+      error instanceof Error
+        ? error.message
+        : ERROR_MESSAGES.INTERNAL_SERVER_ERROR;
     res.status(500).json({ message: errorMessage });
   }
 };
@@ -105,7 +105,9 @@ export const logout = async (_req: Request, res: Response): Promise<void> => {
     res.status(200).json({ message: "Logout successful." });
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : "Internal server error.";
+      error instanceof Error
+        ? error.message
+        : ERROR_MESSAGES.INTERNAL_SERVER_ERROR;
     res.status(500).json({ message: errorMessage });
   }
 };
@@ -113,25 +115,25 @@ export const logout = async (_req: Request, res: Response): Promise<void> => {
 export const update = async (req: Request, res: Response): Promise<void> => {
   try {
     if (!req.user || !req.user._id) {
-      res.status(401).json({ message: "User not authenticated." });
+      res.status(401).json({ message: ERROR_MESSAGES.USER_NOT_AUTHENTICATED });
       return;
     }
 
-    const { fullName, about, profilePicture } = req.body;
+    const { fullName, about, profilePicture, online } = req.body;
     const updateData: Partial<IUser> = {};
 
     if (fullName !== undefined) updateData.fullName = fullName;
     if (about !== undefined) updateData.about = about;
+    if (online !== undefined) updateData.online = online;
 
     if (profilePicture) {
       if (!profilePicture.startsWith("data:image/")) {
-        res.status(400).json({ message: "Invalid image format." });
+        res.status(400).json({ message: ERROR_MESSAGES.INVALID_IMAGE_FORMAT });
         return;
       }
 
       const uploadResponse = await cloudinary.uploader.upload(profilePicture, {
         resource_type: "image",
-        format: "auto",
         quality: "auto:good",
         width: 1000,
         height: 1000,
@@ -146,14 +148,16 @@ export const update = async (req: Request, res: Response): Promise<void> => {
     }).select("-password");
 
     if (!user) {
-      res.status(404).json({ message: "User not found." });
+      res.status(404).json({ message: ERROR_MESSAGES.USER_NOT_FOUND });
       return;
     }
 
     res.status(200).json(user);
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : "Internal server error.";
+      error instanceof Error
+        ? error.message
+        : ERROR_MESSAGES.INTERNAL_SERVER_ERROR;
     res.status(500).json({ message: errorMessage });
   }
 };
@@ -163,7 +167,9 @@ export const checkAuth = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json(req.user);
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : "Internal server error.";
+      error instanceof Error
+        ? error.message
+        : ERROR_MESSAGES.INTERNAL_SERVER_ERROR;
     res.status(500).json({ message: errorMessage });
   }
 };

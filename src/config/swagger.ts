@@ -54,6 +54,16 @@ const options = {
               description: "URL of user profile picture",
               example: "https://example.com/profile.jpg",
             },
+            about: {
+              type: "string",
+              description: "User about/bio",
+              example: "Software developer",
+            },
+            online: {
+              type: "boolean",
+              description: "User online status",
+              example: true,
+            },
             createdAt: {
               type: "string",
               format: "date-time",
@@ -66,46 +76,7 @@ const options = {
             },
           },
         },
-        Message: {
-          type: "object",
-          properties: {
-            _id: {
-              type: "string",
-              description: "Message ID",
-              example: "507f1f77bcf86cd799439012",
-            },
-            senderId: {
-              type: "string",
-              description: "ID of the message sender",
-              example: "507f1f77bcf86cd799439011",
-            },
-            receiverId: {
-              type: "string",
-              description: "ID of the message receiver",
-              example: "507f1f77bcf86cd799439013",
-            },
-            content: {
-              type: "string",
-              description: "Message text content",
-              example: "Hello, how are you?",
-            },
-            image: {
-              type: "string",
-              description: "URL of attached image",
-              example: "https://example.com/image.jpg",
-            },
-            createdAt: {
-              type: "string",
-              format: "date-time",
-              description: "Message creation timestamp",
-            },
-            updatedAt: {
-              type: "string",
-              format: "date-time",
-              description: "Message last update timestamp",
-            },
-          },
-        },
+
         SignupRequest: {
           type: "object",
           required: ["email", "fullName", "password"],
@@ -148,32 +119,26 @@ const options = {
         },
         UpdateProfileRequest: {
           type: "object",
-          required: ["profilePicture", "userId"],
           properties: {
+            fullName: {
+              type: "string",
+              description: "User full name",
+              example: "John Doe",
+            },
+            about: {
+              type: "string",
+              description: "User about/bio",
+              example: "Software developer",
+            },
+            online: {
+              type: "boolean",
+              description: "User online status",
+              example: true,
+            },
             profilePicture: {
               type: "string",
               description:
                 "Base64 encoded image (max 8MB, max 1000x1000px). Supported formats: JPEG, PNG, GIF, WebP. Server accepts up to 10MB payload.",
-              example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ...",
-            },
-            userId: {
-              type: "string",
-              description: "User ID",
-              example: "507f1f77bcf86cd799439011",
-            },
-          },
-        },
-        SendMessageRequest: {
-          type: "object",
-          properties: {
-            text: {
-              type: "string",
-              description: "Message text content",
-              example: "Hello, how are you?",
-            },
-            image: {
-              type: "string",
-              description: "Base64 encoded image",
               example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ...",
             },
           },
@@ -193,37 +158,18 @@ const options = {
             },
           },
         },
-        RateLimitResponse: {
-          type: "object",
-          properties: {
-            message: {
-              type: "string",
-              description: "Rate limit error message",
-              example: "Too many requests, please try again later.",
-            },
-            retryAfter: {
-              type: "number",
-              description: "Seconds until rate limit resets",
-              example: 900,
-            },
-            limit: {
-              type: "number",
-              description: "Maximum requests allowed",
-              example: 100,
-            },
-            remaining: {
-              type: "number",
-              description: "Remaining requests in current window",
-              example: 0,
-            },
-          },
-        },
+
         LoginResponse: {
           type: "object",
           properties: {
-            token: {
+            accessToken: {
               type: "string",
-              description: "JWT token",
+              description: "JWT access token",
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+            },
+            refreshToken: {
+              type: "string",
+              description: "JWT refresh token",
               example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
             },
             user: {

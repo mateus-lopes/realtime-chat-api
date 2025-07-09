@@ -13,10 +13,6 @@ export const ERROR_MESSAGES = {
   AUTH_FAILED: "Authentication failed.",
 } as const;
 
-export const SUCCESS_MESSAGES = {
-  LOGOUT_SUCCESS: "Logout successful.",
-} as const;
-
 export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,

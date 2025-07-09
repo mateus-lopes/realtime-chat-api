@@ -10,8 +10,6 @@ const userSchema = new mongoose.Schema<UserDocument>(
     password: { type: String, required: true, minlength: 6 },
     profilePicture: { type: String, default: "" },
     about: { type: String, default: "" },
-    online: { type: Boolean, default: false },
-    lastSeen: { type: Date },
   },
   { timestamps: true }
 );
