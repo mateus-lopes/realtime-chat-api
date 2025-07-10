@@ -11,7 +11,7 @@ A real-time chat API built with Node.js, Express, TypeScript, and Socket.io.
 - ✅ Authentication route structure
 - 🔄 Socket.io for real-time communication (in development)
 - 🔄 MongoDB for data persistence (in development)
-- 🔄 JWT for authentication (in development)
+- 🔄 JWT for authentication (in development
 - 🔧 Tecnologias Utilizadas: **Node.js**, **Express**, **TypeScript**, **Socket.io**, **MongoDB**, **Mongoose**, **JWT**, **bcryptjs**, **CORS**, **dotenv**
 
 ### 🔧 Installation
