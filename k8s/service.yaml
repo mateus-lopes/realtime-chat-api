@@ -5,7 +5,7 @@ metadata:
   namespace: backend
 spec:
   selector:
-    app: realtime-chat-api
+    app: app
   ports:
     - protocol: TCP
       port: 8000

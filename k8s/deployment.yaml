@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: realtime-chat-api
+  name: app
   namespace: backend
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: realtime-chat-api
+      app: app
   template:
     metadata:
       labels:
-        app: realtime-chat-api
+        app: app
     spec:
       containers:
-        - name: realtime-chat-api
-          image: realtime-chat-api
+        - name: app
+          image: app
           ports:
             - containerPort: 3000
