@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: realtime-chat-api
+spec:
+  containers:
+    - name: realtime-chat-api
+      image: mateuslopess/realtime-chat-api
+      ports:
+        - containerPort: 8000

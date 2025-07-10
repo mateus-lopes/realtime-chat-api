@@ -1,0 +1,68 @@
+name: realtime-chat-ui
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build com Rsbuild
+      run: npm run build
+
+    - name: Rodar testes com Vitest
+      run: npm run test
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and Push to DockerHub
+      id: docker_build_push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: mateuslopess/realtime-chat-api:${{ github.sha }}
+
+    # kustomize
+    - name: Setup Kustomize
+      uses: imranismail/setup-kustomize@v2
+
+    - name: Update kustomization.yaml
+      run: |
+        cd k8s
+        kustomize edit set image mateuslopess/realtime-chat-api:$GITHUB_SHA
+
+    - name: Commit changes
+      run: |
+        git config --local user.name "GitHub Actions"
+        git config --local user.email "actions@github.com"
+        git commit -am "Update kustomization.yaml with new image"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.TOKEN_GITHUB }}
+        branch: ${{ github.event.pull_request.head.ref }}
