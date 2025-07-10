@@ -17,4 +17,4 @@ spec:
         - name: app
           image: app
           ports:
-            - containerPort: 3000
+            - containerPort: 5001
