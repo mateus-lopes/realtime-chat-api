@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: realtime-chat-api-service
+  namespace: backend
 spec:
   selector:
     app: realtime-chat-api
