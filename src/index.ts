@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 // Swagger Documentation
 app.use(
-  "/swagger",
+  "/api/swagger",
   swaggerUi.serve,
   swaggerUi.setup(specs, {
     explorer: true,
