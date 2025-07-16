@@ -177,6 +177,66 @@ const options = {
             },
           },
         },
+
+        Message: {
+          type: "object",
+          properties: {
+            _id: {
+              type: "string",
+              description: "Message ID",
+              example: "64a9f6e3e98e1c5d7c123456",
+            },
+            senderId: {
+              type: "string",
+              description: "ID of the sender",
+              example: "507f1f77bcf86cd799439011",
+            },
+            receiverId: {
+              type: "string",
+              description: "ID of the receiver",
+              example: "507f1f77bcf86cd799439022",
+            },
+            text: {
+              type: "string",
+              description: "Text content of the message",
+              example: "Hello, how are you?",
+            },
+            image: {
+              type: "string",
+              nullable: true,
+              description: "URL of the image if attached",
+              example:
+                "https://res.cloudinary.com/your-cloud/image/upload/v123456/message.jpg",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+              description: "Message creation timestamp",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+              description: "Message last update timestamp",
+            },
+          },
+        },
+
+        MessageRequest: {
+          type: "object",
+          required: ["text"],
+          properties: {
+            text: {
+              type: "string",
+              description: "Message text",
+              example: "Hey, what's up?",
+            },
+            image: {
+              type: "string",
+              description: "Optional base64-encoded image",
+              example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ...",
+            },
+          },
+        },
       },
     },
   },
