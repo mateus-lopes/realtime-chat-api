@@ -119,12 +119,12 @@ export const update = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const { fullName, about, profilePicture, online } = req.body;
+    const { fullName, about, profilePicture, isOnline } = req.body;
     const updateData: Partial<IUser> = {};
 
     if (fullName !== undefined) updateData.fullName = fullName;
     if (about !== undefined) updateData.about = about;
-    if (online !== undefined) updateData.online = online;
+    if (isOnline !== undefined) updateData.isOnline = isOnline;
 
     if (profilePicture) {
       if (!profilePicture.startsWith("data:image/")) {

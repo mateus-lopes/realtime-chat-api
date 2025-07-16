@@ -5,7 +5,7 @@ export interface IUser {
   password: string;
   profilePicture?: string;
   about?: string;
-  online?: boolean;
+  isOnline?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
