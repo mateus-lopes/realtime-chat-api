@@ -19,5 +19,18 @@ spec:
           ports:
             - containerPort: 5001
           env:
-            - name: MONGO_URI
+            - name: MONGODB_URI
               value: mongodb+srv://mateusalbano20:4y6eOaGKbYfuOC9m@cluster0.1w6ozri.mongodb.net/chat_db?retryWrites=true&w=majority&appName=Cluster0
+            - name: PORT
+              value: "5001"
+            - name: JWT_SECRET
+              value: your-super-secret-jwt-key-here
+            - name: NODE_ENV
+              value: development
+            - name: CLOUDINARY_CLOUD_NAME
+              value: drr2pxeyc
+            - name: CLOUDINARY_API_KEY
+              value: "513364325443513"
+            - name: CLOUDINARY_API_SECRET
+              value: WIHDVeJlaPIkcE2y9HDl5wH7Ffs
+
