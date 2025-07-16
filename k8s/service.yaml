@@ -4,6 +4,7 @@ metadata:
   name: realtime-chat-api-service
   namespace: backend
 spec:
+  type: LoadBalancer
   selector:
     app: app
   ports:
