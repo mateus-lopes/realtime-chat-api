@@ -4,6 +4,7 @@ import cors from "cors";
 
 import { connectDB } from "./lib/db.js";
 import { router as authRoutes } from "./routes/auth.route.js";
+import { router as messageRoutes } from "./routes/message.routes.js";
 import cookieParser from "cookie-parser";
 import { swaggerUi, specs } from "./config/swagger.js";
 
@@ -35,6 +36,7 @@ app.use(
 );
 
 app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.get("/", (_req, res) => {
   res.json({

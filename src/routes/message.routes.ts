@@ -99,3 +99,5 @@ router.get("/:id", protectGuard, getMessages);
  *         description: Internal server error
  */
 router.post("/send/:id", protectGuard, sendMessage);
+
+export { router };
